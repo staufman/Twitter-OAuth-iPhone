@@ -10,8 +10,8 @@
 #import "SA_OAuthTwitterEngine.h"
 
 
-#define kOAuthConsumerKey				@""		//REPLACE ME
-#define kOAuthConsumerSecret			@""		//REPLACE ME
+#define kOAuthConsumerKey				@"9Tq7XJJrWpqze4gxCxosg"		//REPLACE ME
+#define kOAuthConsumerSecret			@"fW1EZN4RIoTsFv2z59TbMk7LSk6ngDQ07xllpMrY8"		//REPLACE ME
 
 @implementation OAuthTwitterDemoViewController
 
@@ -70,11 +70,11 @@
 	
 	UIViewController			*controller = [SA_OAuthTwitterController controllerToEnterCredentialsWithTwitterEngine: _engine delegate: self];
 	
-	if (controller) 
-		[self presentModalViewController: controller animated: YES];
-	else {
+	//if (controller) 
+	//	[self presentModalViewController: controller animated: YES];
+	//else {
 		[_engine sendUpdate: [NSString stringWithFormat: @"Already Updated. %@", [NSDate date]]];
-	}
+	//}
 
 }
 
