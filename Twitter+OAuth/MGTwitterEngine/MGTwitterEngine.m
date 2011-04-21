@@ -49,10 +49,10 @@
 #define MAX_LOCATION_LENGTH		30
 #define MAX_DESCRIPTION_LENGTH	160
 
-#define DEFAULT_CLIENT_NAME     @"MGTwitterEngine"
+#define DEFAULT_CLIENT_NAME     @"Hopscotch"
 #define DEFAULT_CLIENT_VERSION  @"1.0"
-#define DEFAULT_CLIENT_URL      @"http://mattgemmell.com/source"
-#define DEFAULT_CLIENT_TOKEN	@"mgtwitterengine"
+#define DEFAULT_CLIENT_URL      @"http://usehopscotch.com"
+#define DEFAULT_CLIENT_TOKEN	@"hopscotch"
 
 #define URL_REQUEST_TIMEOUT     25.0 // Twitter usually fails quickly if it's going to fail at all.
 
@@ -643,6 +643,8 @@
     NSData *xmlData = [[[connection data] copy] autorelease];
     MGTwitterRequestType requestType = [connection requestType];
     MGTwitterResponseType responseType = [connection responseType];
+	NSString *debug = [[[NSString alloc] initWithBytes:[xmlData bytes] length:[xmlData length] encoding:NSStringEncodingConversionAllowLossy] autorelease];
+	NSLog(@"%@", debug);
     
 #if USE_LIBXML
 	NSURL *URL = [connection URL];
@@ -1316,15 +1318,27 @@
 	if (!username1 || !username2) {
         return nil;
     }
-	NSMutableDictionary *params = [NSMutableDictionary dictionaryWithCapacity:0];
+	/*NSMutableDictionary *params = [NSMutableDictionary dictionaryWithCapacity:0];
     [params setObject:username1 forKey:@"user_a"];
-	[params setObject:username2 forKey:@"user_b"];
+	[params setObject:username2 forKey:@"user_b"];*/
 	
-    NSString *path = [NSString stringWithFormat:@"friendships/exists.%@", API_FORMAT];
+    //NSString *path = [NSString stringWithFormat:@"1/friendships/exists.%@?user_a=%@&user_b=%@", @"json", username1, username2];
+	//NSString *path = [NSString stringWithFormat:@"friends/ids/%@.%@", username1, API_FORMAT];
+	NSString *path = [NSString stringWithFormat:@"friendships/show.%@?source_screen_name=%@&target_screen_name=%@", API_FORMAT, username1, username2];
     
-    return [self _sendRequestWithMethod:nil path:path queryParameters:params body:nil 
+    return [self _sendRequestWithMethod:nil path:path queryParameters:nil body:nil 
+                            requestType:MGTwitterUpdatesCheckRequest 
+                           responseType:MGTwitterUser];
+}
+
+- (NSString *)getFriends
+{
+	NSString *path = [NSString stringWithFormat:@"friends/ids/%@.%@", [self username], API_FORMAT];
+    
+    return [self _sendRequestWithMethod:nil path:path queryParameters:nil body:nil 
                             requestType:MGTwitterUpdatesCheckRequest 
                            responseType:MGTwitterMiscellaneous];
+
 }
 
 

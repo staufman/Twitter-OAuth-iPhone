@@ -133,6 +133,7 @@
 - (NSString *)enableUpdatesFor:(NSString *)username; // friendships/create (follow username)
 - (NSString *)disableUpdatesFor:(NSString *)username; // friendships/destroy (unfollow username)
 - (NSString *)isUser:(NSString *)username1 receivingUpdatesFor:(NSString *)username2; // friendships/exists (test if username1 follows username2)
+- (NSString *)getFriends;
 
 
 // Account methods

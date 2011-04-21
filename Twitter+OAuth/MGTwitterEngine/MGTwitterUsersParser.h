@@ -11,6 +11,8 @@
 #import "MGTwitterStatusesParser.h"
 
 @interface MGTwitterUsersParser : MGTwitterStatusesParser {
+	
+	BOOL _inSource;
 
 }
 

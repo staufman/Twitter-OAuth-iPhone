@@ -20,6 +20,11 @@
     attributes:(NSDictionary *)attributeDict
 {
     //NSLog(@"Started element: %@ (%@)", elementName, attributeDict);
+	if ([elementName isEqualToString:@"source"])
+		_inSource = YES;
+	else if ([elementName isEqualToString:@"target"])
+		_inSource = NO;
+	
     [self setLastOpenedElement:elementName];
     
     if ([elementName isEqualToString:@"user"]) {
@@ -32,10 +37,20 @@
         NSMutableDictionary *newNode = [NSMutableDictionary dictionaryWithCapacity:0];
         [currentNode setObject:newNode forKey:elementName];
         currentNode = newNode;
-    } else if (currentNode) {
+	} else if (currentNode) {
         // Create relevant name-value pair.
         [currentNode setObject:[NSMutableString string] forKey:elementName];
     }
+}
+
+- (void)parser:(NSXMLParser *)theParser foundCharacters:(NSString *)characters
+{
+	if ([[self lastOpenedElement] isEqualToString:@"following"] && _inSource)
+	{
+		NSString *trimmedString = [characters stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+		if (![trimmedString isEqualToString:@""])
+			[parsedObjects addObject:characters];
+	}
 }
 
 
